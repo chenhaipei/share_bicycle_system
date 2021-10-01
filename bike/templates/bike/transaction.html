@@ -1,0 +1,82 @@
+{% extends 'bike/base.html' %}
+{% block title %}Transaction{% endblock %}
+{% block content %}
+
+<div
+  style="width: 65%;margin: auto;padding: 50px;border: 2px solid black;border-radius: 20px;margin-top: 40px;margin-bottom: 40px;">
+  <h4 style="margin-bottom: 30px;">The details of you transaction are as follows:</h4>
+  <div class="form-group">
+    <label>Transaction ID:</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" value="{{transaction.unique}}" readonly>
+  </div>
+  <div class="form-group">
+    <label>Bicycle ID:</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" value="{{transaction.bike}}" readonly>
+  </div>
+  <div class="form-group">
+    <label>Your starting address:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Starting destination</span>
+      </div>
+      <input type="number" aria-label="First name" class="form-control" step="any" value="87.6145155" readonly>
+      <input type="number" aria-label="Last name" class="form-control" step="any" value="-102.6545884" readonly>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Order creation time:</label>
+    <input type="datetime-local" class="form-control" id="exampleInputEmail1" value="{{start_time}}" readonly>
+  </div>
+
+  <form action="/finish/{{transaction.id}}/" method="POST">
+    {% csrf_token %}
+    <label>Destination coordinates:</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Selected destination</span>
+      </div>
+      <input name="lat" type="number" aria-label="First name" class="form-control" id="lat" step="any" required="required">
+      <input name="lng" type="number" aria-label="Last name" class="form-control" id="lng" step="any" required="required">
+    </div>
+    <small class="form-text text-muted">Please select your destination on the map.</small>
+
+    <div id="map" style="height: 400px;width: 90%;margin: auto;margin-top: 30px;margin-bottom: 30px;"></div>
+
+    <div class="form-group">
+      <label>Order finish time:</label>
+      <input name="finish_time" type="datetime-local" aria-label="First name" class="form-control" id="finish_time"
+        value="{{finish_time}}">
+    </div>
+    {% if transaction.status %}
+    <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;" disabled>Finished Transaction</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;">Return The Bike</button>
+    {% endif %}
+  </form>
+
+</div>
+
+
+<script>
+  function initMap() {
+    let options = {
+      zoom: 15,
+      center: { lat: 43.0012, lng: -75.00068 }
+    };
+    let map = new google.maps.Map(document.getElementById("map"), options);
+    let marker = new google.maps.Marker({
+      position: options.center,
+      map: map,
+    });
+    map.addListener("click", (res) => {
+      if (res && res.Vb) {
+        document.getElementById("lat").value = res.Vb.x
+        document.getElementById("lng").value = res.Vb.y
+      }
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpQssL8RJRSjCuTU_OmZvJTOFqsi28SGY&callback=initMap"
+  async></script>
+
+{% endblock %}

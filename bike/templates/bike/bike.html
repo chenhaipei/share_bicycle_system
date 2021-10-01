@@ -1,0 +1,58 @@
+{% extends 'bike/base.html' %}
+{% block title %}Detail{% endblock %}
+{% block content %}
+
+<div
+    style="width: 65%;margin: auto;padding: 50px;border: 2px solid black;border-radius: 20px;margin-top: 40px;margin-bottom: 40px;">
+    <h4 style="margin-bottom: 30px;">The details of the bike are as follows:</h4>
+    <div class="form-group">
+        <label>Bicycle ID:</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" value="awjvd54948" readonly>
+    </div>
+    <div class="form-group">
+        <label>Address:</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Starting destination</span>
+            </div>
+            <input type="number" aria-label="First name" class="form-control" step="any" value="{{bike.position_lat}}" readonly>
+            <input type="number" aria-label="Last name" class="form-control" step="any" value="{{bike.position_lng}}" readonly>
+        </div>
+    </div>
+    <div id="map" style="height: 400px;width: 90%;margin: auto;margin-top: 30px;margin-bottom: 30px;"></div>
+    {% if bike.available %}
+    <button onclick="window.location.href='/rent/{{bike.id}}/'" class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;">Rent The Bike</button>
+    {% else %}
+    <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;" disabled>Rent The Bike</button>
+    {% endif %}
+    <form action="">
+        <div class="form-group" style="margin-top: 30px;">
+            <label>There was a malfunction ?</label>
+            <input type="text" class="form-control" id="finish_time" required="required"
+                placeholder="Enter the problem you encountered here.">
+        </div>
+        <button type="submit" class="btn btn-outline-secondary btn-lg btn-block" style="margin-top: 20px;">Sumbit
+            feedback</button>
+    </form>
+    <input id="lat" type="number" step="any" value="{{bike.position_lat}}" style="display: none;">
+    <input id="lng" type="number" step="any" value="{{bike.position_lng}}" style="display: none;">
+</div>
+
+<script>
+    function initMap() {
+        let options = {
+            zoom: 15,
+            center: { lat: document.getElementById('lat').value, lng: document.getElementById('lng').value }
+        };
+        let map = new google.maps.Map(document.getElementById("map"), options);
+        let marker = new google.maps.Marker({
+            position: options.center,
+            map: map,
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpQssL8RJRSjCuTU_OmZvJTOFqsi28SGY&callback=initMap"
+    async>
+    </script>
+
+{% endblock %}

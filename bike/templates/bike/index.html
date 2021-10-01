@@ -1,0 +1,22 @@
+{% extends 'bike/base.html' %}
+
+{% block title %}Bike System{% endblock %}
+{% block content %}
+<div style="width: 75%;margin: auto;margin-top: 30px;">
+  <h4 style="margin-bottom: 30px;">The list of bicycles around is as follows:</h4>
+
+  <div class="list-group">
+    {% for bike in bikes %}
+    <a href="/detail/{{bike.id}}/" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">The bike #{{bike.unique}}</h5>
+        <h5 class="text-muted">
+          {% if bike.available %}Available{% else %}Unavailable{% endif %}
+        </h5>
+      </div>
+      <p class="mb-1">location: {{bike.position}}</p>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
