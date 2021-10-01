@@ -25,10 +25,11 @@
     {% else %}
     <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;" disabled>Rent The Bike</button>
     {% endif %}
-    <form action="">
+    <form action="/feedback/{{bike.id}}/" method="POST">
+        {% csrf_token %}
         <div class="form-group" style="margin-top: 30px;">
             <label>There was a malfunction ?</label>
-            <input type="text" class="form-control" id="finish_time" required="required"
+            <input type="text" name="content" class="form-control" id="finish_time" required="required"
                 placeholder="Enter the problem you encountered here.">
         </div>
         <button type="submit" class="btn btn-outline-secondary btn-lg btn-block" style="margin-top: 20px;">Sumbit

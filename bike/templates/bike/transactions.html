@@ -2,8 +2,13 @@
 {% block title %}Transactions{% endblock %}
 {% block content %}
 <div style="width: 80%;margin: auto;margin-top: 30px;">
+    {% if not transactions|length %}
+    <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">You have no order records for the time being. <a href="/">Click to rent a bicycle.</a></h5>
+        
+    </div>
+    {% else %}
     <h4 style="margin-bottom: 30px;">The list of your transactions is as follows:</h4>
-
     <div class="list-group">
         {% for transaction in transactions %}
         {% if not transaction.status %}
@@ -26,8 +31,8 @@
         </a>
         {% endif %}
         {% endfor %}
-
     </div>
+    {% endif %}
 </div>
 
 <script>

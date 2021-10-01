@@ -57,7 +57,8 @@ def transaction(request, ID):
 @login_required
 @require_http_methods(['GET'])
 def transactions(request):
-    trans = Transaction.objects.all().order_by('-start_time')
+    customer = Customer.objects.get(account=request.user)
+    trans = Transaction.objects.filter(customer=customer).order_by('-start_time')
     content = {
         "transactions": trans
     }
@@ -107,13 +108,13 @@ def finish(request, ID):
     bike = trans.bike
     bike.available = True
     bike.save()
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/transactions/")
 
 
 @login_required
 @require_http_methods(['POST'])
-def feedback(request):
-    bike = Bike.objects.get(id=request.POST.get('id'))
+def feedback(request, ID):
+    bike = Bike.objects.get(id=ID)
     customer = Customer.objects.get(account=request.user)
     record = Record(
         bike=bike,
