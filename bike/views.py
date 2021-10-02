@@ -106,6 +106,8 @@ def finish(request, ID):
     trans.finish_position_lng = lng
     trans.save()
     bike = trans.bike
+    bike.position_lat = lat
+    bike.position_lng = lng
     bike.available = True
     bike.save()
     return HttpResponseRedirect("/transactions/")
