@@ -43,8 +43,9 @@
     function initMap() {
         let options = {
             zoom: 15,
-            center: { lat: document.getElementById('lat').value, lng: document.getElementById('lng').value }
+            center: { lat: parseFloat(document.getElementById('lat').value), lng: parseFloat(document.getElementById('lng').value) }
         };
+        console.log(options)
         let map = new google.maps.Map(document.getElementById("map"), options);
         let marker = new google.maps.Marker({
             position: options.center,
