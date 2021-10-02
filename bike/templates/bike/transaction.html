@@ -19,8 +19,8 @@
       <div class="input-group-prepend">
         <span class="input-group-text">Starting destination</span>
       </div>
-      <input type="number" aria-label="First name" class="form-control" step="any" value="87.6145155" readonly>
-      <input type="number" aria-label="Last name" class="form-control" step="any" value="-102.6545884" readonly>
+      <input type="number" id="start_lat" aria-label="Lat" class="form-control" step="any" value="{{transaction.start_position_lat}}" readonly>
+      <input type="number" id="start_lng" aria-label="Lng" class="form-control" step="any" value="{{transaction.start_position_lng}}" readonly>
     </div>
   </div>
   <div class="form-group">
@@ -61,7 +61,7 @@
   function initMap() {
     let options = {
       zoom: 15,
-      center: { lat: 43.0012, lng: -75.00068 }
+      center: { lat: parseFloat(document.getElementById('start_lat').value), lng: parseFloat(document.getElementById('start_lng').value) }
     };
     let map = new google.maps.Map(document.getElementById("map"), options);
     let marker = new google.maps.Marker({
