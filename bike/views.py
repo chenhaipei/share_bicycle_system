@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
 import datetime
+import uuid
 from .models import *
 
 
@@ -73,6 +74,7 @@ def rent(request, ID):
         return HttpResponseRedirect("/detail/%d/" % ID)
     customer = Customer.objects.get(account=request.user)
     trans = Transaction(
+        unique=uuid.uuid4().hex,
         customer=customer,
         bike=bike,
         start_position_lat=bike.position_lat,
@@ -119,6 +121,7 @@ def feedback(request, ID):
     bike = Bike.objects.get(id=ID)
     customer = Customer.objects.get(account=request.user)
     record = Record(
+        unique=uuid.uuid4().hex,
         bike=bike,
         customer=customer,
         content=request.POST.get('content')
