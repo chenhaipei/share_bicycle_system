@@ -1,7 +1,9 @@
+from datetime import date, datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from uuid import uuid4
+import datetime
 
 
 class Customer(models.Model):
@@ -38,8 +40,9 @@ class Transaction(models.Model):
     finish_time = models.DateTimeField(null=True, blank=True)
     status = models.BooleanField(default=False)
 
-    def current(self):
-        return (timezone.now() - self.start_time).minute
+    def calculate(self):
+        finish = self.finish_time if self.finish_time else datetime.datetime.utcnow()
+        return round((finish - self.start_time).seconds / 3600, 2)
 
     def start_position(self):
         return f"{self.start_position_lat}, {self.start_position_lng}"

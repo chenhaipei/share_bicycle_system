@@ -44,7 +44,7 @@ def logouts(request):
 @require_http_methods(['GET'])
 def transaction(request, ID):
     trans = Transaction.objects.get(id=ID)
-    finish_time = datetime.datetime.now()
+    finish_time = datetime.datetime.utcnow()
     finish_time = "%04d-%02d-%02dT%02d:%02d:%02d" % (finish_time.year, finish_time.month, finish_time.day, finish_time.hour, finish_time.minute, finish_time.second)
     start_time = "%04d-%02d-%02dT%02d:%02d:%02d" % (trans.start_time.year, trans.start_time.month, trans.start_time.day, trans.start_time.hour, trans.start_time.minute, trans.start_time.second)
     content = {
@@ -60,8 +60,13 @@ def transaction(request, ID):
 def transactions(request):
     customer = Customer.objects.get(account=request.user)
     trans = Transaction.objects.filter(customer=customer).order_by('-start_time')
+    cost = 0.0
+    for t in trans:
+        cost += t.calculate()
     content = {
-        "transactions": trans
+        "transactions": trans,
+        "cost": round(cost, 3),
+        "balance": round((customer.balance - cost), 3)
     }
     return render(request, "bike/transactions.html", content)
 

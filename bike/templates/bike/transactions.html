@@ -2,7 +2,10 @@
 {% block title %}Transactions{% endblock %}
 {% block content %}
 <div style="width: 80%;margin: auto;margin-top: 30px;">
-    {% if not transactions|length %}
+    <div class="d-flex w-100 justify-content-between" style="margin-bottom: 20px;">
+        <h5 class="mb-1">You have a total of {{transactions|length}} orders, and your bill is ${{cost}}, your balance is ${{balance}}. </h5>
+    </div>
+    {% if not transactions|length %}    
     <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">You have no order records for the time being. <a href="/">Click to rent a bicycle.</a></h5>
         
@@ -24,7 +27,7 @@
         <a href="#" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Order #{{transaction.unique}}</h5>
-                <small class="text-muted">finished</small>
+                <small class="text-muted">Total ${{transaction.calculate}}</small>
             </div>
             <p class="mb-1">From ({{transaction.start_position}}) to ({{transaction.finish_position}}).</p>
             <small class="text-muted">{{transaction.start_time}} to {{transaction.finish_time}}</small>

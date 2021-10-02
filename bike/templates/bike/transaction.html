@@ -70,8 +70,8 @@
     });
     map.addListener("click", (res) => {
       if (res && res.Vb) {
-        document.getElementById("lat").value = res.Vb.x
-        document.getElementById("lng").value = res.Vb.y
+        document.getElementById("lat").value = res.latLng.lat()
+        document.getElementById("lng").value = res.latLng.lng()
       }
     });
   }
