@@ -12,6 +12,7 @@
         <h5 class="mb-1">The bike #{{bike.unique}}</h5>
         <h5 class="text-muted">
           {% if bike.available %}Available{% else %}Unavailable{% endif %}
+          {% if bike.need_repair %}(Need Repair){% endif %}
         </h5>
       </div>
       <p class="mb-1">location: {{bike.position}}</p>

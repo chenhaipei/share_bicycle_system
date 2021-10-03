@@ -11,5 +11,7 @@ urlpatterns = [
     path('transactions/', views.transactions),
     path('transaction/<int:ID>/', views.transaction),
     path('feedback/<int:ID>/', views.feedback),
-    path('finish/<int:ID>/', views.finish)
+    path('finish/<int:ID>/', views.finish),
+    path('charge/', views.charge),
+    path('chart/', views.chart)
 ]

@@ -1,0 +1,62 @@
+{% extends 'bike/base.html' %}
+
+{% block title %}Records{% endblock %}
+{% block content %}
+
+<div style="width: 70%;margin: auto;margin-top: 50px;">
+    <form action="/chart/"
+        style="border: 1px solid black;padding: 30px;border-radius: 20px;padding-bottom: 5px;margin-bottom: 30px;"
+        method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Choose the time period to show:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Time Period</span>
+                </div>
+                <input type="datetime-local" name="start_time" class="form-control" value="{{finish_time}}" step="any"
+                    required="required">
+                <input type="datetime-local" name="end_time" class="form-control" value="{{finish_time}}" step="any"
+                    required="required">
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px;" type="submit">Query Records</button>
+        </div>
+
+    </form>
+
+    {% if Values %}
+    <h4>The number of orders in the above time period :</h4>
+    <div id="chart">
+    </div>
+    <script>
+        var bikes = {{ Bikes| safe }};
+        var values = {{ Values| safe }};
+        var options = {
+            series: [{
+                data: values
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: true
+            },
+            xaxis: {
+                categories: bikes,
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+    </script>
+    {% endif %}
+</div>
+
+{% endblock %}

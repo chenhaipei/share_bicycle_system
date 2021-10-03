@@ -18,7 +18,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('unique', 'customer', 'bike', 'start_time', 'status')
+    list_display = ('unique', 'customer', 'bike', 'start_time', 'calculate', 'status')
     list_filter = ['customer', 'bike', 'status']
     search_fields = ['unique']
 

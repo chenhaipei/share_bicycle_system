@@ -1,0 +1,30 @@
+{% extends 'bike/base.html' %}
+{% block title %}Charge{% endblock %}
+
+{% block content %}
+{% if value %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>You have successfully topped up $</strong> {{value}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% else %}
+{% endif %}
+
+
+<div style="width: 70%;margin: auto;margin-top: 100px;">
+    <form action="/charge/" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Please enter the amount you want to top up:</label>
+            <input name="value" type="number" class="form-control" step="any" required="required">
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;">Charge</button>
+    </form>
+</div>
+
+
+{% endblock %}
