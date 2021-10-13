@@ -7,16 +7,18 @@
 
   <div class="list-group">
     {% for bike in bikes %}
+    {% if bike.available %}
     <a href="/detail/{{bike.id}}/" class="list-group-item list-group-item-action">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">The bike #{{bike.unique}}</h5>
         <h5 class="text-muted">
-          {% if bike.available %}Available{% else %}Unavailable{% endif %}
+          Available
           {% if bike.need_repair %}(Need Repair){% endif %}
         </h5>
       </div>
       <p class="mb-1">location: {{bike.position}}</p>
     </a>
+    {% endif %}
     {% endfor %}
   </div>
 </div>

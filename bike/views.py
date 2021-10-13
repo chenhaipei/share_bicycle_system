@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
@@ -153,6 +154,8 @@ def charge(request):
     return render(request, "bike/charge.html", content)
 
 
+@login_required
+@staff_member_required
 @require_http_methods(['POST', 'GET'])
 def chart(request):
     finish_time = datetime.datetime.utcnow()

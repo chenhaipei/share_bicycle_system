@@ -39,7 +39,7 @@ class Transaction(models.Model):
     status = models.BooleanField(default=False)
 
     def calculate(self):
-        return round((abs(self.finish_time - self.start_time).seconds) / 60, 2)
+        return round(abs(self.finish_time - self.start_time).seconds / 600, 2)
 
     def start_position(self):
         return f"{self.start_position_lat}, {self.start_position_lng}"
